@@ -1,15 +1,19 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
+var cors = require('cors');
 const app = express();
-const models = require('./models');
 const Gallery = require('express-photo-gallery');
 
 var options = {
   title: 'My Awesome Photo Gallery'
 };
 
-app.use(fileUpload());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+app.use(fileUpload());
+app.use(cors());
 // app.use('/photos', Gallery('./images/', options));
 
 // API controllers
