@@ -6,7 +6,9 @@ const Photo = models.Photo;
 
 // Get
 photos.get('/', (req, res) => {
-  res.send('YEEEEELLOOOOO');
+  Photo.findAll().then((allPhoto) => {
+    res.send(allPhoto);
+  });
 });
 
 // Create
