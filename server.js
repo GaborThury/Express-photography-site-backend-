@@ -1,9 +1,11 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
 var cors = require('cors');
 const app = express();
 
 app.use(express.static('./public'));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(fileUpload());
 app.use(cors());
