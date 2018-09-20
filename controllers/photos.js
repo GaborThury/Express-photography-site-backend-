@@ -19,6 +19,11 @@ photos.post('/', (req, res) => {
     let photo = req.files.photo;
     let splittedFilename = req.files.photo.name.split('.');
     fileExtension = splittedFilename.pop();
+
+    if (!((fileExtension === 'jpg') || (fileExtension === 'png') || (fileExtension === 'jpeg'))) {
+      return res.status(400).send({message: 'The server rejected this file!'});
+    }
+
     photo.mv((path.join(__dirname, '..', 'public', 'uploads', fileName + '.' + fileExtension)), (error) => {
       if (error) {
         return res.send('Upload failed!' + error);
@@ -37,11 +42,11 @@ photos.post('/', (req, res) => {
       category: '0'
     };
   }
-  console.log(photoParams);
   Photo.create(photoParams).then(photo => {
     res.send('Upload succesful!');
   }).catch(error => {
     res.status(500).json(error);
   });
 });
+
 module.exports = photos;
