@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const Jimp = require('jimp');
 const photos = express.Router();
 const models = require('../models');
 const Photo = models.Photo;
@@ -28,7 +29,14 @@ photos.post('/', (req, res) => {
     if (error) {
       return res.send('Upload failed!' + error);
     } else {
-      console.log('Upload succesful!');
+      Jimp.read(path.join(__dirname, '..', 'public', 'uploads', fileName + '.' + fileExtension))
+        .then(photo => {
+          photo.resize(400, Jimp.AUTO);
+          photo.write(path.join(__dirname, '..', 'public', 'uploads', 'thumbnails', fileName + '.' + fileExtension));
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   });
 
